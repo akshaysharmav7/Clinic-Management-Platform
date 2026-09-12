@@ -1,0 +1,10 @@
+#spring.application.name=Clinic Management Platform
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clinic_management
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
