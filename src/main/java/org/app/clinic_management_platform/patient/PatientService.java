@@ -20,4 +20,10 @@ public class PatientService {
         return patientMapper.toResponse(savedPatient);
     }
 
+    //Get Patient by Id
+    public PatientResponse getPatient(Long id){
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(()-> new PatientNotFoundException(id));
+        return patientMapper.toResponse(patient);
+    }
 }
