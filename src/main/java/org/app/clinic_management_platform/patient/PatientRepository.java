@@ -1,4 +1,6 @@
 package org.app.clinic_management_platform.patient;
 
-public class PatientRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PatientRepository extends JpaRepository<Patient, Long> {
 }
