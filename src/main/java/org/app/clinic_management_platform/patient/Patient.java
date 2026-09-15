@@ -1,54 +1,56 @@
 package org.app.clinic_management_platform.patient;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "patients")
+@EntityListeners(AuditingEntityListener.class)
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
     @Column(name = "first_name", nullable = false, length = 100)
-    public String firstName;
+    private String firstName;
     @Column(name = "last_name", nullable = false, length = 100)
-    public String lastName;
+    private String lastName;
     @Column(name = "date_of_birth", nullable = false)
-    public LocalDate dateOfBirth;
+    private LocalDate dateOfBirth;
     @Column(length = 30)
-    public String gender;
+    private String gender;
     @Column(length = 30)
-    public String Phone;
+    private String phone;
     @Column(length = 255)
-    public String email;
-    @Column(name = "created_at", nullable = false)
-    public LocalDateTime createdAt;
+    private String email;
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    public LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     protected Patient() {
     }
 
-    public Patient(Long id,
+    public Patient(
                    String firstName,
                    String lastName,
                    LocalDate dateOfBirth,
                    String gender,
                    String phone,
-                   String email,
-                   LocalDateTime createdAt,
-                   LocalDateTime updatedAt) {
-        this.id = id;
+                   String email
+                 ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        Phone = phone;
+        this.phone = phone;
         this.email = email;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -92,11 +94,11 @@ public class Patient {
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 
     public String getEmail() {
