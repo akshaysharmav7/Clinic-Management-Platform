@@ -52,11 +52,20 @@ public class PatientService {
         return patients.map(patientMapper::toResponse);
     }
 
+    //Update Patient
     @Transactional
     public PatientResponse updatePatient(Long id, UpdatePatientRequest request){
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(()-> new PatientNotFoundException(id));
         patientMapper.updateEntity(patient, request);
         return patientMapper.toResponse(patient);
+    }
+
+    //Delete Patient
+    @Transactional
+    public void deletePatient(Long id){
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(()->new PatientNotFoundException(id));
+        patientRepository.delete(patient);
     }
 }
