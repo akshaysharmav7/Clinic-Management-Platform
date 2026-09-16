@@ -1,5 +1,8 @@
 package org.app.clinic_management_platform.patient;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,5 +31,12 @@ public class PatientService {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(()-> new PatientNotFoundException(id));
         return patientMapper.toResponse(patient);
+    }
+
+    //Get Patients
+    @Transactional(readOnly = true)
+    public Page<PatientResponse> getPatients(Pageable pageable){
+        return patientRepository.findAll(pageable)
+                .map(patientMapper::toResponse);
     }
 }

@@ -1,6 +1,8 @@
 package org.app.clinic_management_platform.patient;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +26,10 @@ public class PatientController {
     @GetMapping("/{id}")
     public PatientResponse getPatient(@PathVariable Long id){
         return patientService.getPatient(id);
+    }
+
+    @GetMapping
+    public Page<PatientResponse> getPatients(Pageable pageable){
+        return patientService.getPatients(pageable);
     }
 }
