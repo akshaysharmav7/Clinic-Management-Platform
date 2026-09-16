@@ -34,9 +34,21 @@ public class PatientService {
     }
 
     //Get Patients
+//    @Transactional(readOnly = true)
+//    public Page<PatientResponse> getPatients(Pageable pageable){
+//        return patientRepository.findAll(pageable)
+//                .map(patientMapper::toResponse);
+//    }
+
     @Transactional(readOnly = true)
-    public Page<PatientResponse> getPatients(Pageable pageable){
-        return patientRepository.findAll(pageable)
-                .map(patientMapper::toResponse);
+    public Page<PatientResponse> getPatients(String search, Pageable pageable){
+        Page<Patient> patients;
+        if(search == null || search.isBlank()){
+            patients = patientRepository.findAll(pageable);
+        } else {
+            patients = patientRepository.searchPatients(search, pageable);
+        }
+
+        return patients.map(patientMapper::toResponse);
     }
 }

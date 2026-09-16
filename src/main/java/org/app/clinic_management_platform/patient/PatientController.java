@@ -29,7 +29,7 @@ public class PatientController {
     }
 
     @GetMapping
-    public Page<PatientResponse> getPatients(Pageable pageable){
-        return patientService.getPatients(pageable);
+    public Page<PatientResponse> getPatients(@RequestParam(required = false) String search, Pageable pageable){
+        return patientService.getPatients(search, pageable);
     }
 }
