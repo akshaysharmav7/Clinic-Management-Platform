@@ -32,4 +32,9 @@ public class PatientController {
     public Page<PatientResponse> getPatients(@RequestParam(required = false) String search, Pageable pageable){
         return patientService.getPatients(search, pageable);
     }
+
+    @PutMapping("/{id}")
+    public PatientResponse updatePatient(@PathVariable Long id, @Valid @RequestBody UpdatePatientRequest request){
+        return patientService.updatePatient(id, request);
+    }
 }

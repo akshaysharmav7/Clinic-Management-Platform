@@ -28,4 +28,13 @@ public class PatientMapper{
                 patient.getUpdatedAt()
         );
     }
+
+    public void updateEntity(Patient patient, UpdatePatientRequest request){
+        patient.setFirstName(request.getFirstName());
+        patient.setLastName(request.getLastName());
+        patient.setDateOfBirth(request.getDateOfBirth());
+        patient.setGender(request.getGender());
+        patient.setPhone(request.getPhone());
+        patient.setEmail(request.getEmail());
+    }
 }

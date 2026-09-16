@@ -33,7 +33,7 @@ public class PatientService {
         return patientMapper.toResponse(patient);
     }
 
-    //Get Patients
+    //Get Patients (Old)
 //    @Transactional(readOnly = true)
 //    public Page<PatientResponse> getPatients(Pageable pageable){
 //        return patientRepository.findAll(pageable)
@@ -50,5 +50,13 @@ public class PatientService {
         }
 
         return patients.map(patientMapper::toResponse);
+    }
+
+    @Transactional
+    public PatientResponse updatePatient(Long id, UpdatePatientRequest request){
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(()-> new PatientNotFoundException(id));
+        patientMapper.updateEntity(patient, request);
+        return patientMapper.toResponse(patient);
     }
 }
