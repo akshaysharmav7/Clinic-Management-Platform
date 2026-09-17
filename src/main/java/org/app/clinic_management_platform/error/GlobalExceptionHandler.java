@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrorResponse handleValidationException(MethodArgumentNotValidException execption){
         Map<String, String> errors = execption.getBindingResult()
                 .getFieldErrors()
