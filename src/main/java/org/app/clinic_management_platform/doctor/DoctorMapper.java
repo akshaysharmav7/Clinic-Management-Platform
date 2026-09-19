@@ -1,5 +1,8 @@
 package org.app.clinic_management_platform.doctor;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class DoctorMapper {
     public Doctor toEntity(CreateDoctorRequest request){
         return new Doctor(
