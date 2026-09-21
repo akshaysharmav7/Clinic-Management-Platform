@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -151,5 +153,42 @@ public class DoctorControllerTest {
                         .value(
                                 "Doctor already exists with license number: DOC-1001"
                         ));
+    }
+
+    @Test
+    void getDoctors_shouldReturn200() throws Exception{
+        DoctorResponse doctor1 = new DoctorResponse(
+                1L,
+                "Sarah",
+                "Smith",
+                "Cardiology",
+                "DOC-1001",
+                "9876543210",
+                "sarah@clinic.com",
+                null,
+                null
+        );
+        DoctorResponse doctor2 = new DoctorResponse(
+                2L,
+                "John",
+                "Doe",
+                "Neurology",
+                "DOC-1002",
+                "9999999999",
+                "john@clinic.com",
+                null,
+                null
+        );
+
+        when(doctorService.getDoctors())
+                .thenReturn(List.of(doctor1,doctor2));
+
+        mockMvc.perform(
+                get("/api/v1/doctors")
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].firstName").value("Sarah"))
+                .andExpect(jsonPath("$[1].firstName").value("John"));
     }
 }

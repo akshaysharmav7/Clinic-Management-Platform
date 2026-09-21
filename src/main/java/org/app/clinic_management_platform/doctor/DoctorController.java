@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/doctors")
 public class DoctorController {
@@ -24,4 +26,11 @@ public class DoctorController {
     public DoctorResponse getDoctor(@PathVariable Long id){
         return doctorService.getDoctor(id);
     }
+
+    @GetMapping
+    public List<DoctorResponse> getDoctors(){
+        return doctorService.getDoctors();
+    }
+
+
 }

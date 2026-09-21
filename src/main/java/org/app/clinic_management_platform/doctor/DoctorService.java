@@ -3,6 +3,8 @@ package org.app.clinic_management_platform.doctor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class DoctorService {
 
@@ -42,5 +44,13 @@ public class DoctorService {
                 .orElseThrow(() -> new DoctorNotFoundException(id));
 
         return doctorMapper.toResponse(doctor);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DoctorResponse> getDoctors(){
+        return doctorRepository.findAll()
+                .stream()
+                .map(doctorMapper::toResponse)
+                .toList();
     }
 }

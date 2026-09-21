@@ -7,9 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+//import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -155,4 +158,64 @@ public class DoctorServiceTest {
         verify(doctorMapper, never())
                 .toResponse(any());
         }
+
+    @Test
+    void getDoctors_shouldReturnAllDoctors(){
+        Doctor doctor1 = new Doctor(
+                "Sarah",
+                "Smith",
+                "Cardiology",
+                "DOC-1001",
+                "9876543210",
+                "sarah@clinic.com"
+        );
+
+        Doctor doctor2 = new Doctor(
+                "John",
+                "Doe",
+                "Neurology",
+                "DOC-1002",
+                "9999999999",
+                "john@clinic.com"
+        );
+
+        DoctorResponse response1 = new DoctorResponse(
+                1L,
+                "Sarah",
+                "Smith",
+                "Cardiology",
+                "DOC-1001",
+                "9876543210",
+                "sarah@clinic.com",
+                null,
+                null
+        );
+
+        DoctorResponse response2 = new DoctorResponse(
+                2L,
+                "John",
+                "Doe",
+                "Neurology",
+                "DOC-1002",
+                "9999999999",
+                "john@clinic.com",
+                null,
+                null
+        );
+        when(doctorRepository.findAll())
+                .thenReturn(List.of(doctor1, doctor2));
+        when(doctorMapper.toResponse(doctor1))
+                .thenReturn(response1);
+        when(doctorMapper.toResponse(doctor2))
+                .thenReturn(response2);
+
+        List<DoctorResponse> result = doctorService.getDoctors();
+        assertThat(result)
+                .containsExactly(response1, response2);
+
+        verify(doctorRepository).findAll();
+        verify(doctorMapper).toResponse(doctor1);
+        verify(doctorMapper).toResponse(doctor2);
+
+    }
     }
