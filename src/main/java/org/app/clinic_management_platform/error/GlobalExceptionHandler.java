@@ -1,5 +1,7 @@
 package org.app.clinic_management_platform.error;
 
+import org.app.clinic_management_platform.appointment.AppointmentAlreadyExistsException;
+import org.app.clinic_management_platform.appointment.AppointmentNotFoundException;
 import org.app.clinic_management_platform.doctor.DoctorAlreadyExistsException;
 import org.app.clinic_management_platform.doctor.DoctorNotFoundException;
 import org.app.clinic_management_platform.patient.PatientNotFoundException;
@@ -70,4 +72,31 @@ public class GlobalExceptionHandler {
                 null
         );
     }
+
+    @ExceptionHandler(AppointmentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrorResponse handleAppointmentNotFound(
+            AppointmentNotFoundException exception
+    ) {
+        return new ApiErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                LocalDateTime.now(),
+                Map.of()
+        );
+    }
+
+    @ExceptionHandler(AppointmentAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiErrorResponse handleAppointmentAlreadyExists(
+            AppointmentAlreadyExistsException exception
+    ) {
+        return new ApiErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage(),
+                LocalDateTime.now(),
+                Map.of()
+        );
+    }
+
 }
